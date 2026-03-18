@@ -1,4 +1,4 @@
-# Mi Tienda — MVP PWA + Backend Python
+# Tienda Niña Rita — MVP PWA + Backend Python
 
 Sistema de registro de ventas e inventario para personas analfabetas,
 operado por voz e iconos grandes.
