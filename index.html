@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta name="theme-color" content="#FF6B2B">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Tienda niña Rita">
+    <title>Tienda niña Rita</title>
+    <link rel="manifest" href="manifest.json">
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@700;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --orange: #FF6B2B;
+            --orange-light: #FFF0E8;
+            --green: #22C55E;
+            --green-dark: #16A34A;
+            --green-light: #F0FDF4;
+            --blue: #3B82F6;
+            --blue-dark: #2563EB;
+            --blue-light: #EFF6FF;
+            --yellow-dark: #D97706;
+            --yellow-light: #FFFBEB;
+            --red: #EF4444;
+            --bg: #FFF8F5;
+            --text: #1A1A1A;
+            --muted: #666;
+            --white: #FFFFFF;
+            --radius: 24px;
+            --shadow: 0 8px 32px rgba(0, 0, 0, .12);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            -webkit-tap-highlight-color: transparent
+        }
+
+        body {
+            font-family: 'Nunito', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            max-width: 430px;
+            margin: 0 auto;
+            overflow-x: hidden
+        }
+
+        .screen {
+            display: none;
+            flex-direction: column;
+            min-height: 100vh;
+            padding: 0 20px 100px;
+            animation: fadeIn .25s ease
+        }
+
+        .screen.active {
+            display: flex
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(16px)
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            padding: 20px 0 12px;
+            gap: 12px;
+            position: sticky;
+            top: 0;
+            background: var(--bg);
+            z-index: 10
+        }
+
+        .header h1 {
+            font-size: 26px;
+            font-weight: 900
+        }
+
+        .btn-back {
+            width: 48px;
+            height: 48px;
+            border: none;
+            background: var(--white);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            flex-shrink: 0;
+            font-size: 20px
+        }
+
+        .home-title {
+            text-align: center;
+            padding: 32px 0 28px
+        }
+
+        .store-icon {
+            width: 90px;
+            height: 90px;
+            background: var(--orange);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 16px;
+            box-shadow: 0 12px 32px rgba(255, 107, 43, .35)
+        }
+
+        .home-title h1 {
+            font-size: 32px;
+            font-weight: 900
+        }
+
+        .home-title p {
+            color: var(--muted);
+            font-size: 16px;
+            font-weight: 700;
+            margin-top: 4px
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px
+        }
+
+        .main-btn {
+            aspect-ratio: 1;
+            border: none;
+            border-radius: var(--radius);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            font-family: 'Nunito', sans-serif;
+            font-weight: 900;
+            font-size: 18px;
+            transition: transform .15s, box-shadow .15s
+        }
+
+        .main-btn:active {
+            transform: scale(.94);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .12)
+        }
+
+        .main-btn.venta {
+            background: var(--orange);
+            color: var(--white)
+        }
+
+        .main-btn.entrada {
+            background: var(--green);
+            color: var(--white)
+        }
+
+        .main-btn.consulta {
+            background: var(--blue);
+            color: var(--white);
+            grid-column: 1/-1;
+            aspect-ratio: auto;
+            padding: 28px;
+            flex-direction: row;
+            justify-content: flex-start;
+            gap: 20px;
+            font-size: 22px
+        }
+
+        .icon-wrap {
+            width: 64px;
+            height: 64px;
+            background: rgba(255, 255, 255, .25);
+            border-radius: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0
+        }
+
+        .main-btn.consulta .icon-wrap {
+            width: 72px;
+            height: 72px;
+            border-radius: 20px
+        }
+
+        .audio-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 24px 0;
+            gap: 16px
+        }
+
+        .audio-hint {
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--muted);
+            text-align: center
+        }
+
+        .btn-record {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: none;
+            background: var(--orange);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 12px 40px rgba(255, 107, 43, .4);
+            transition: transform .15s, box-shadow .15s;
+            gap: 6px;
+            font-family: 'Nunito', sans-serif;
+            font-weight: 900;
+            font-size: 13px;
+            color: var(--white)
+        }
+
+        .btn-record.recording {
+            background: var(--red);
+            box-shadow: 0 12px 40px rgba(239, 68, 68, .5);
+            animation: pulse 1s infinite
+        }
+
+        .btn-record:active {
+            transform: scale(.92)
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1)
+            }
+
+            50% {
+                transform: scale(1.06)
+            }
+        }
+
+        .recording-wave {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            height: 24px
+        }
+
+        .wave-bar {
+            width: 4px;
+            background: var(--white);
+            border-radius: 4px;
+            height: 8px
+        }
+
+        .recording .wave-bar {
+            animation: wave-anim .6s ease-in-out infinite alternate
+        }
+
+        .wave-bar:nth-child(1) {
+            animation-delay: 0s
+        }
+
+        .wave-bar:nth-child(2) {
+            animation-delay: .1s
+        }
+
+        .wave-bar:nth-child(3) {
+            animation-delay: .2s
+        }
+
+        .wave-bar:nth-child(4) {
+            animation-delay: .1s
+        }
+
+        .wave-bar:nth-child(5) {
+            animation-delay: 0s
+        }
+
+        @keyframes wave-anim {
+            from {
+                height: 6px
+            }
+
+            to {
+                height: 22px
+            }
+        }
+
+        .result-card {
+            background: var(--white);
+            border-radius: var(--radius);
+            padding: 20px;
+            box-shadow: var(--shadow);
+            margin-top: 16px;
+            display: none;
+            flex-direction: column;
+            gap: 16px
+        }
+
+        .result-card.visible {
+            display: flex
+        }
+
+        .result-header {
+            display: flex;
+            align-items: center;
+            gap: 12px
+        }
+
+        .result-status {
+            width: 48px;
+            height: 48px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0
+        }
+
+        .result-status.ok {
+            background: var(--green-light)
+        }
+
+        .result-title {
+            font-size: 18px;
+            font-weight: 900
+        }
+
+        .result-body {
+            font-size: 15px;
+            color: var(--muted);
+            font-weight: 700;
+            line-height: 1.5
+        }
+
+        .btn-play {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: var(--blue-light);
+            border: none;
+            border-radius: 16px;
+            padding: 14px 18px;
+            cursor: pointer;
+            font-family: 'Nunito', sans-serif;
+            font-size: 15px;
+            font-weight: 900;
+            color: var(--blue-dark);
+            width: 100%
+        }
+
+        .btn-play:active {
+            opacity: .75
+        }
+
+        .product-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: 8px
+        }
+
+        .product-item {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 16px 18px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, .08)
+        }
+
+        .product-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            font-size: 28px
+        }
+
+        .product-name {
+            font-size: 17px;
+            font-weight: 900
+        }
+
+        .product-stock {
+            font-size: 14px;
+            font-weight: 700;
+            margin-top: 2px
+        }
+
+        .stock-ok {
+            color: var(--green-dark)
+        }
+
+        .stock-low {
+            color: var(--yellow-dark)
+        }
+
+        .stock-empty {
+            color: var(--red)
+        }
+
+        .product-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            padding: 8px 0 16px
+        }
+
+        .product-chip {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            background: var(--white);
+            border: 3px solid transparent;
+            border-radius: 18px;
+            padding: 12px 14px;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, .08);
+            min-width: 80px;
+            transition: border-color .15s, transform .1s;
+            font-family: 'Nunito', sans-serif
+        }
+
+        .product-chip.selected {
+            border-color: var(--orange);
+            transform: scale(1.04)
+        }
+
+        .product-chip span {
+            font-size: 28px
+        }
+
+        .product-chip p {
+            font-size: 12px;
+            font-weight: 900;
+            color: var(--text);
+            text-align: center
+        }
+
+        .qty-picker {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+            padding: 16px 0
+        }
+
+        .qty-btn {
+            width: 64px;
+            height: 64px;
+            border-radius: 20px;
+            border: none;
+            font-size: 32px;
+            font-weight: 900;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--orange-light);
+            color: var(--orange);
+            box-shadow: 0 4px 12px rgba(255, 107, 43, .2);
+            font-family: 'Nunito', sans-serif;
+            transition: transform .1s
+        }
+
+        .qty-btn:active {
+            transform: scale(.88)
+        }
+
+        .qty-display {
+            font-size: 52px;
+            font-weight: 900;
+            color: var(--text);
+            min-width: 80px;
+            text-align: center
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 20px;
+            border: none;
+            border-radius: 20px;
+            background: var(--orange);
+            color: var(--white);
+            font-family: 'Nunito', sans-serif;
+            font-size: 20px;
+            font-weight: 900;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(255, 107, 43, .35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 8px;
+            transition: transform .1s, opacity .1s
+        }
+
+        .btn-submit:active {
+            transform: scale(.96);
+            opacity: .9
+        }
+
+        .section-label {
+            font-size: 14px;
+            font-weight: 900;
+            color: var(--muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin: 20px 0 8px
+        }
+
+        .loading-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(255, 255, 255, .92);
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            z-index: 100
+        }
+
+        .loading-overlay.visible {
+            display: flex
+        }
+
+        .spinner {
+            width: 56px;
+            height: 56px;
+            border: 5px solid #eee;
+            border-top-color: var(--orange);
+            border-radius: 50%;
+            animation: spin .7s linear infinite
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg)
+            }
+        }
+
+        .loading-text {
+            font-size: 20px;
+            font-weight: 900
+        }
+
+        .toast {
+            position: fixed;
+            bottom: 32px;
+            left: 50%;
+            transform: translateX(-50%) translateY(80px);
+            background: var(--text);
+            color: var(--white);
+            padding: 14px 24px;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: 700;
+            z-index: 200;
+            transition: transform .3s cubic-bezier(.34, 1.56, .64, 1);
+            max-width: 90vw;
+            text-align: center
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0)
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- HOME -->
+    <div class="screen active" id="screen-home">
+        <div class="home-title">
+            <div class="store-icon">
+                <svg width="50" height="50" viewBox="0 0 50 50" fill="none">
+                    <path d="M8 14h34l-4 14H12L8 14Z" fill="white" fill-opacity=".9" />
+                    <rect x="14" y="30" width="22" height="12" rx="3" fill="white" fill-opacity=".7" />
+                    <path d="M6 10h38" stroke="white" stroke-width="2.5" stroke-linecap="round" />
+                    <circle cx="18" cy="46" r="3" fill="white" />
+                    <circle cx="32" cy="46" r="3" fill="white" />
+                </svg>
+            </div>
+            <h1>Tienda niña Rita</h1>
+            <p>Que vas a hacer hoy?</p>
+        </div>
+        <div class="main-grid">
+            <button class="main-btn venta" onclick="goTo('screen-venta');playSound('venta')">
+                <div class="icon-wrap">
+                    <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+                        <rect x="4" y="8" width="28" height="20" rx="4" stroke="white" stroke-width="2.5" />
+                        <path d="M12 18h12M18 12v12" stroke="white" stroke-width="2.5" stroke-linecap="round" />
+                        <circle cx="10" cy="30" r="2.5" fill="white" />
+                        <circle cx="26" cy="30" r="2.5" fill="white" />
+                    </svg>
+                </div>
+                <span>Venta</span>
+            </button>
+            <button class="main-btn entrada" onclick="goTo('screen-entrada');playSound('entrada')">
+                <div class="icon-wrap">
+                    <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+                        <rect x="6" y="10" width="24" height="18" rx="4" stroke="white" stroke-width="2.5" />
+                        <path d="M18 15v8M14 19l4 4 4-4" stroke="white" stroke-width="2.5" stroke-linecap="round"
+                            stroke-linejoin="round" />
+                        <path d="M12 7h12" stroke="white" stroke-width="2.5" stroke-linecap="round" />
+                    </svg>
+                </div>
+                <span>Entrada</span>
+            </button>
+            <button class="main-btn consulta" onclick="goTo('screen-consulta');playSound('consulta')">
+                <div class="icon-wrap">
+                    <svg width="40" height="40" viewBox="0 0 40 40" fill="none">
+                        <circle cx="18" cy="18" r="10" stroke="white" stroke-width="2.5" />
+                        <path d="M26 26l7 7" stroke="white" stroke-width="2.5" stroke-linecap="round" />
+                        <path d="M14 18h8M18 14v8" stroke="white" stroke-width="2.5" stroke-linecap="round" />
+                    </svg>
+                </div>
+                <span>Ver Inventario</span>
+            </button>
+        </div>
+        <div class="section-label" style="margin-top:28px">O habla con tu tienda</div>
+        <button id="btn-hablar" class="btn-submit"
+            style="background:var(--blue);box-shadow:0 8px 24px rgba(59,130,246,.35)" onclick="startVoiceCommand()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <rect x="8" y="2" width="8" height="14" rx="4" fill="white" />
+                <path d="M4 11c0 4.4 3.6 8 8 8s8-3.6 8-8" stroke="white" stroke-width="2" stroke-linecap="round" />
+                <path d="M12 19v3M9 22h6" stroke="white" stroke-width="2" stroke-linecap="round" />
+            </svg>
+            Hablar
+        </button>
+    </div>
+
+    <!-- VENTA -->
+    <div class="screen" id="screen-venta">
+        <div class="header">
+            <button class="btn-back" onclick="goTo('screen-home')">&#8592;</button>
+            <h1>Registrar Venta</h1>
+        </div>
+        <div class="section-label">Que vendiste?</div>
+        <div class="product-chips" id="chips-venta"></div>
+        <div class="section-label">Cuanto?</div>
+        <div class="qty-picker">
+            <button class="qty-btn" onclick="changeQty(-1,'qty-venta')">-</button>
+            <div class="qty-display" id="qty-venta">1</div>
+            <button class="qty-btn" onclick="changeQty(1,'qty-venta')">+</button>
+        </div>
+        <div class="section-label">O dilo con tu voz</div>
+        <div class="audio-section">
+            <button class="btn-record" id="btn-record-venta" onclick="toggleRecord('venta')">
+                <div class="recording-wave">
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                </div>
+                <span>Grabar</span>
+            </button>
+            <p class="audio-hint">Toca para hablar</p>
+        </div>
+        <button class="btn-submit" onclick="submitVenta()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M5 13l4 4L19 7" stroke="white" stroke-width="2.5" stroke-linecap="round"
+                    stroke-linejoin="round" />
+            </svg>
+            Confirmar Venta
+        </button>
+        <div class="result-card" id="result-venta">
+            <div class="result-header">
+                <div class="result-status ok"><svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M5 13l4 4L19 7" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round" />
+                    </svg></div>
+                <div>
+                    <div class="result-title">Venta registrada!</div>
+                    <div class="result-body" id="result-venta-body"></div>
+                </div>
+            </div>
+            <button class="btn-play" onclick="playResultAudio('venta')">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <circle cx="10" cy="10" r="9" fill="#3B82F6" />
+                    <path d="M8 7l6 3-6 3V7Z" fill="white" />
+                </svg>
+                Escuchar resultado
+            </button>
+        </div>
+    </div>
+
+    <!-- ENTRADA -->
+    <div class="screen" id="screen-entrada">
+        <div class="header">
+            <button class="btn-back" onclick="goTo('screen-home')">&#8592;</button>
+            <h1>Entrada de Mercancia</h1>
+        </div>
+        <div class="section-label">Que llego?</div>
+        <div class="product-chips" id="chips-entrada"></div>
+        <div class="section-label">Cuantas unidades?</div>
+        <div class="qty-picker">
+            <button class="qty-btn" onclick="changeQty(-1,'qty-entrada')">-</button>
+            <div class="qty-display" id="qty-entrada">1</div>
+            <button class="qty-btn" onclick="changeQty(1,'qty-entrada')">+</button>
+        </div>
+        <div class="section-label">O dilo con tu voz</div>
+        <div class="audio-section">
+            <button class="btn-record" id="btn-record-entrada" onclick="toggleRecord('entrada')">
+                <div class="recording-wave">
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                </div>
+                <span>Grabar</span>
+            </button>
+            <p class="audio-hint">Toca para hablar</p>
+        </div>
+        <button class="btn-submit" onclick="submitEntrada()">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path d="M12 4v12M8 12l4 4 4-4" stroke="white" stroke-width="2.5" stroke-linecap="round" />
+                <path d="M4 18h16" stroke="white" stroke-width="2.5" stroke-linecap="round" />
+            </svg>
+            Registrar Entrada
+        </button>
+        <div class="result-card" id="result-entrada">
+            <div class="result-header">
+                <div class="result-status ok"><svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+                        <path d="M5 13l4 4L19 7" stroke="#16A34A" stroke-width="2.5" stroke-linecap="round" />
+                    </svg></div>
+                <div>
+                    <div class="result-title">Entrada registrada!</div>
+                    <div class="result-body" id="result-entrada-body"></div>
+                </div>
+            </div>
+            <button class="btn-play" onclick="playResultAudio('entrada')">
+                <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                    <circle cx="10" cy="10" r="9" fill="#3B82F6" />
+                    <path d="M8 7l6 3-6 3V7Z" fill="white" />
+                </svg>
+                Escuchar resultado
+            </button>
+        </div>
+    </div>
+
+    <!-- CONSULTA -->
+    <div class="screen" id="screen-consulta">
+        <div class="header">
+            <button class="btn-back" onclick="goTo('screen-home')">&#8592;</button>
+            <h1>Inventario</h1>
+        </div>
+        <div class="section-label">O pregunta con tu voz</div>
+        <div class="audio-section" style="padding:12px 0 20px">
+            <button class="btn-record" id="btn-record-consulta"
+                style="background:var(--blue);box-shadow:0 12px 40px rgba(59,130,246,.4)"
+                onclick="toggleRecord('consulta')">
+                <div class="recording-wave">
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                    <div class="wave-bar"></div>
+                </div>
+                <span>Preguntar</span>
+            </button>
+        </div>
+        <div class="section-label">Estado actual</div>
+        <div class="product-list" id="product-list"></div>
+    </div>
+
+    <!-- LOADING -->
+    <div class="loading-overlay" id="loading">
+        <div class="spinner"></div>
+        <div class="loading-text" id="loading-text">Procesando...</div>
+    </div>
+    <div class="toast" id="toast"></div>
+
+    <script>
+        var API_BASE = '';
+        var PRODUCTS = [
+            { id: 1, icon: '🧴', name: 'Shampoo', stock: 12, color: '#EFF6FF' },
+            { id: 2, icon: '🧼', name: 'Jabon', stock: 3, color: '#F0FDF4' },
+            { id: 3, icon: '🥤', name: 'Refresco', stock: 24, color: '#FFF0E8' },
+            { id: 4, icon: '🍚', name: 'Arroz', stock: 0, color: '#FFFBEB' },
+            { id: 5, icon: '🛢', name: 'Aceite', stock: 7, color: '#FDF4FF' },
+            { id: 6, icon: '🍬', name: 'Dulces', stock: 50, color: '#FFF0E8' }
+        ];
+        var selectedProduct = { venta: null, entrada: null };
+        var quantities = { venta: 1, entrada: 1 };
+        var mediaRecorder = null;
+        var audioChunks = [];
+        var isRecording = false;
+        var recordingContext = null;
+
+        function goTo(id) {
+            document.querySelectorAll('.screen').forEach(function (s) { s.classList.remove('active'); });
+            document.getElementById(id).classList.add('active');
+            if (id === 'screen-consulta') loadInventory();
+        }
+
+        function renderChips(cid, ctx) {
+            var c = document.getElementById(cid);
+            c.innerHTML = '';
+            PRODUCTS.forEach(function (p) {
+                var b = document.createElement('button');
+                b.className = 'product-chip';
+                b.style.background = p.color;
+                b.innerHTML = '<span>' + p.icon + '</span><p>' + p.name + '</p>';
+                b.onclick = function () { selectProduct(p, ctx, b); };
+                c.appendChild(b);
+            });
+        }
+        renderChips('chips-venta', 'venta');
+        renderChips('chips-entrada', 'entrada');
+
+        function selectProduct(p, ctx, el) {
+            selectedProduct[ctx] = p;
+            document.querySelectorAll('#chips-' + ctx + ' .product-chip').forEach(function (c) { c.classList.remove('selected'); });
+            el.classList.add('selected');
+            speakText(p.name + ' seleccionado');
+        }
+
+        function changeQty(d, id) {
+            var el = document.getElementById(id);
+            var n = Math.max(1, parseInt(el.textContent) + d);
+            el.textContent = n;
+            quantities[id === 'qty-venta' ? 'venta' : 'entrada'] = n;
+        }
+
+        function toggleRecord(ctx) {
+            if (isRecording && recordingContext === ctx) { stopRecord(ctx); }
+            else { startRecord(ctx); }
+        }
+
+        function startRecord(ctx) {
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                showToast('Tu navegador no soporta audio.');
+                return;
+            }
+            navigator.mediaDevices.getUserMedia({ audio: true })
+                .then(function (stream) {
+                    // Detectar codec soportado (iOS necesita mp4, Android/Desktop acepta webm)
+                    var mimeType = '';
+                    var candidates = ['`webm;codecs=opus', 'audio/webm', 'audio/mp4', 'audio/ogg;codecs=opus', 'audio/ogg'];
+                    for (var i = 0; i < candidates.length; i++) {
+                        if (MediaRecorder.isTypeSupported && MediaRecorder.isTypeSupported(candidates[i])) {
+                            mimeType = candidates[i];
+                            break;
+                        }
+                    }
+                    var opts = mimeType ? { mimeType: mimeType } : {};
+                    try { mediaRecorder = new MediaRecorder(stream, opts); }
+                    catch (e) { mediaRecorder = new MediaRecorder(stream); }
+                    audioChunks = [];
+                    isRecording = true;
+                    recordingContext = ctx;
+
+                    // Boton circular de grabacion (no existe para ctx='home')
+                    var br = document.getElementById('btn-record-' + ctx);
+                    if (br) {
+                        br.classList.add('recording');
+                        var sp = br.querySelector('span');
+                        if (sp) sp.textContent = 'Grabando...';
+                    }
+
+                    // Boton "Hablar" en home
+                    if (ctx === 'home') {
+                        var bh = document.getElementById('btn-hablar');
+                        if (bh) {
+                            bh.textContent = 'Grabando... (toca para parar)';
+                            bh.style.background = 'var(--red)';
+                            bh.style.boxShadow = '0 8px 24px rgba(239,68,68,.4)';
+                            bh.onclick = function () { stopRecord('home'); };
+                        }
+                    }
+
+                    mediaRecorder.ondataavailable = function (e) { audioChunks.push(e.data); };
+                    mediaRecorder.onstop = function () { processAudio(ctx, stream); };
+                    mediaRecorder.start();
+                    speakText('Grabando. Habla ahora.');
+                })
+                .catch(function (err) {
+                    isRecording = false;
+                    showToast('No se pudo acceder al microfono.');
+                    console.error(err);
+                });
+        }
+
+        function stopRecord(ctx) {
+            if (mediaRecorder && mediaRecorder.state !== 'inactive') mediaRecorder.stop();
+            isRecording = false;
+
+            var br = document.getElementById('btn-record-' + ctx);
+            if (br) {
+                br.classList.remove('recording');
+                var sp = br.querySelector('span');
+                if (sp) sp.textContent = ctx === 'consulta' ? 'Preguntar' : 'Grabar';
+            }
+
+            if (ctx === 'home') {
+                var bh = document.getElementById('btn-hablar');
+                if (bh) {
+                    bh.textContent = 'Hablar';
+                    bh.style.background = 'var(--blue)';
+                    bh.style.boxShadow = '0 8px 24px rgba(59,130,246,.35)';
+                    bh.onclick = startVoiceCommand;
+                }
+            }
+        }
+
+        function processAudio(ctx, stream) {
+            stream.getTracks().forEach(function (t) { t.stop(); });
+            var mime = mediaRecorder && mediaRecorder.mimeType ? mediaRecorder.mimeType : 'audio/webm';
+            var blob = new Blob(audioChunks, { type: mime });
+            showLoading('Procesando audio...');
+            var fd = new FormData();
+            var ext = mime.indexOf('mp4') >= 0 ? 'mp4' : mime.indexOf('ogg') >= 0 ? 'ogg' : 'webm';
+            fd.append('audio', blob, 'recording.' + ext);
+            fd.append('context', ctx);
+            fetch(API_BASE + '/audio/' + ctx, { method: 'POST', body: fd })
+                .then(function (r) { if (!r.ok) throw new Error(); return r.json(); })
+                .then(function (d) { handleAudioResponse(ctx, d); })
+                .catch(function (e) { console.warn('Demo mode:', e); handleAudioResponse(ctx, getMock(ctx)); })
+                .finally(hideLoading);
+        }
+
+        function getMock(ctx) {
+            var m = {
+                venta: { success: true, product_id: 1, quantity: 2, intent: 'venta', message: 'Demo: 2 Shampoo. Confirma si esta bien.' },
+                entrada: { success: true, product_id: 2, quantity: 10, intent: 'entrada', message: 'Demo: 10 Jabones. Confirma si esta bien.' },
+                home: { success: true, intent: 'venta', message: 'Escuche: venta' },
+                consulta: { success: true, message: '12 Shampoo, 3 Jabones, sin stock de Arroz.', products: PRODUCTS }
+            };
+            return m[ctx] || { success: true, intent: 'unclear', message: 'No entendi.' };
+        }
+
+        function handleAudioResponse(ctx, data) {
+            if (ctx === 'home') {
+                var i = data.intent || '';
+                if (i === 'venta') { goTo('screen-venta'); speakText('Abriendo ventas'); }
+                else if (i === 'entrada') { goTo('screen-entrada'); speakText('Abriendo entrada'); }
+                else if (i === 'consulta') { goTo('screen-consulta'); speakText('Abriendo inventario'); }
+                else { showToast('Di: venta, entrada o inventario.'); speakText('Di: venta, entrada o inventario.'); }
+                return;
+            }
+            if (ctx === 'consulta') {
+                if (data.products) renderInventory(data.products);
+                speakText(data.message || 'Listo'); showToast(data.message || 'Listo');
+                return;
+            }
+            if (data.product_id) {
+                var idx = -1;
+                PRODUCTS.forEach(function (p, i) { if (p.id === data.product_id) idx = i; });
+                if (idx >= 0) {
+                    var chips = document.querySelectorAll('#chips-' + ctx + ' .product-chip');
+                    if (chips[idx]) selectProduct(PRODUCTS[idx], ctx, chips[idx]);
+                }
+            }
+            if (data.quantity >= 1) {
+                quantities[ctx] = data.quantity;
+                var el = document.getElementById('qty-' + ctx);
+                if (el) el.textContent = data.quantity;
+            }
+            showToast('Audio procesado. Confirma si esta bien.');
+            speakText('Confirma si esta bien.');
+        }
+
+        function submitVenta() {
+            if (!selectedProduct.venta) { showToast('Selecciona un producto'); speakText('Selecciona un producto'); return; }
+            showLoading('Registrando venta...');
+            fetch(API_BASE + '/ventas', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ product_id: selectedProduct.venta.id, quantity: quantities.venta }) })
+                .then(function (r) { return r.ok ? r.json() : null; })
+                .then(function (d) { showResult('venta', d || { message: quantities.venta + ' ' + selectedProduct.venta.name + ' vendido(s)' }); })
+                .catch(function () { showResult('venta', { message: quantities.venta + ' ' + selectedProduct.venta.name + ' guardado localmente' }); })
+                .finally(hideLoading);
+        }
+
+        function submitEntrada() {
+            if (!selectedProduct.entrada) { showToast('Selecciona un producto'); speakText('Selecciona un producto'); return; }
+            showLoading('Registrando entrada...');
+            fetch(API_BASE + '/inventario/entrada', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ product_id: selectedProduct.entrada.id, quantity: quantities.entrada }) })
+                .then(function (r) { return r.ok ? r.json() : null; })
+                .then(function (d) { showResult('entrada', d || { message: quantities.entrada + ' ' + selectedProduct.entrada.name + ' registrado(s)' }); })
+                .catch(function () { showResult('entrada', { message: quantities.entrada + ' ' + selectedProduct.entrada.name + ' guardado localmente' }); })
+                .finally(hideLoading);
+        }
+
+        function showResult(ctx, data) {
+            var card = document.getElementById('result-' + ctx);
+            var body = document.getElementById('result-' + ctx + '-body');
+            if (body) body.textContent = data.message || 'Listo';
+            if (card) { card.classList.add('visible'); card.scrollIntoView({ behavior: 'smooth', block: 'center' }); }
+            speakText(data.message || 'Listo');
+        }
+
+        function loadInventory() {
+            fetch(API_BASE + '/inventario')
+                .then(function (r) { return r.ok ? r.json() : null; })
+                .then(function (d) { renderInventory(d && d.products ? d.products : PRODUCTS); })
+                .catch(function () { renderInventory(PRODUCTS); });
+        }
+
+        function renderInventory(products) {
+            var list = document.getElementById('product-list');
+            list.innerHTML = '';
+            products.forEach(function (p) {
+                var sc = 'stock-ok', st = (p.stock || 0) + ' unidades';
+                if ((p.stock || 0) === 0) { sc = 'stock-empty'; st = 'Sin stock'; }
+                else if ((p.stock || 0) <= 5) { sc = 'stock-low'; st = (p.stock || 0) + ' unidades - poco'; }
+                var item = document.createElement('div');
+                item.className = 'product-item';
+                item.innerHTML = '<div class="product-icon" style="background:' + (p.color || '#FFF0E8') + '">' + (p.icon || '📦') + '</div><div style="flex:1"><div class="product-name">' + (p.name || p.nombre) + '</div><div class="product-stock ' + sc + '">' + st + '</div></div>';
+                list.appendChild(item);
+            });
+        }
+
+        function speakText(t) {
+            if (!window.speechSynthesis) return;
+            window.speechSynthesis.cancel();
+            var u = new SpeechSynthesisUtterance(t);
+            u.lang = 'es-ES'; u.rate = 0.9; u.pitch = 1;
+            window.speechSynthesis.speak(u);
+        }
+        function playResultAudio(ctx) {
+            var el = document.getElementById('result-' + ctx + '-body');
+            speakText(el ? el.textContent : 'Operacion completada');
+        }
+        function playSound(a) {
+            var m = { venta: 'Registrar venta', entrada: 'Entrada de mercancia', consulta: 'Ver inventario' };
+            speakText(m[a] || a);
+        }
+        function startVoiceCommand() {
+            if (isRecording && recordingContext === 'home') { stopRecord('home'); return; }
+            speakText('Di venta, entrada o inventario.');
+            startRecord('home');
+        }
+        function showLoading(t) { document.getElementById('loading-text').textContent = t || 'Procesando...'; document.getElementById('loading').classList.add('visible'); }
+        function hideLoading() { document.getElementById('loading').classList.remove('visible'); }
+        var _tt;
+        function showToast(m) { var t = document.getElementById('toast'); t.textContent = m; t.classList.add('show'); clearTimeout(_tt); _tt = setTimeout(function () { t.classList.remove('show'); }, 3000); }
+
+        if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(function () { });
+        loadInventory();
+    </script>
+</body>
+
+</html>
