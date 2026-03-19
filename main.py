@@ -145,6 +145,10 @@ def transcribir_audio(audio_bytes: bytes, filename: str = "recording.webm") -> s
 
 
 def extraer_datos_audio(transcripcion: str, contexto: str, productos: list) -> dict:
+    # for producto in productos:
+    #     print(producto.id, producto.nombre, producto.stock)
+    # print(contexto)
+    # print(transcripcion)
     """Extrae producto y cantidad del texto transcrito usando Llama-3.1-8b."""
     nombres    = ", ".join([f"{p.id}:{p.nombre}" for p in productos])
     system_msg = "Eres asistente de tienda. Responde SOLO con JSON valido. Sin markdown ni texto extra."
@@ -174,6 +178,7 @@ def extraer_datos_audio(transcripcion: str, contexto: str, productos: list) -> d
             if parte.startswith("{"):
                 raw = parte
                 break
+    print(raw)
     return json.loads(raw)
 
 
@@ -215,7 +220,7 @@ def root():
 def get_inventario():
     db = SessionLocal()
     productos = db.query(Producto).all()
-    db.close()
+    db.close()    
     return {"products": [producto_to_dict(p) for p in productos]}
 
 
@@ -283,20 +288,22 @@ async def procesar_audio(contexto: str, audio: UploadFile = File(...)):
     except Exception as e:
         raise HTTPException(500, f"Error LLM: {str(e)}")
 
+    print(f"datos procesador audio: {datos}")
+
     datos["transcription"] = transcripcion
     datos["success"]       = True
 
-    if contexto == "consulta":
-        db       = SessionLocal()
-        productos = db.query(Producto).all()
-        db.close()
-        sin_stock  = [p.nombre for p in productos if p.stock == 0]
-        poco_stock = [p.nombre for p in productos if 0 < p.stock <= 5]
-        partes = []
-        if sin_stock:  partes.append(f"Sin stock: {', '.join(sin_stock)}")
-        if poco_stock: partes.append(f"Poco stock: {', '.join(poco_stock)}")
-        datos["message"]  = ". ".join(partes) if partes else "Todo el inventario esta bien."
-        datos["products"] = [producto_to_dict(p) for p in productos]
+    # if contexto == "consulta":
+    #     db       = SessionLocal()
+    #     productos = db.query(Producto).all()
+    #     db.close()
+    #     sin_stock  = [p.nombre for p in productos if p.stock == 0]
+    #     poco_stock = [p.nombre for p in productos if 0 < p.stock <= 5]
+    #     partes = []
+    #     if sin_stock:  partes.append(f"Sin stock: {', '.join(sin_stock)}")
+    #     if poco_stock: partes.append(f"Poco stock: {', '.join(poco_stock)}")
+    #     datos["message"]  = ". ".join(partes) if partes else "Todo el inventario esta bien."
+    #     datos["products"] = [producto_to_dict(p) for p in productos]
 
     return datos
 

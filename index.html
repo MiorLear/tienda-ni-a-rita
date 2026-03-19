@@ -581,7 +581,7 @@ function getMock(ctx) {
   return m[ctx]||{success:true,intent:'unclear',message:'No entendi.'};
 }
 
-function handleAudioResponse(ctx, data) {
+function handleAudioResponse(ctx, data) {  
   if (ctx==='home') {
     var i = data.intent||'';
     if (i==='venta')         {goTo('screen-venta');    speakText('Abriendo ventas');}
@@ -649,7 +649,7 @@ function loadInventory() {
 
 function renderInventory(products) {
   var list=document.getElementById('product-list');
-  list.innerHTML='';
+  list.innerHTML='';  
   products.forEach(function(p) {
     var sc='stock-ok',st=(p.stock||0)+' unidades';
     if((p.stock||0)===0){sc='stock-empty';st='Sin stock';}
