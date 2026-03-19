@@ -138,6 +138,7 @@ def transcribir_audio(audio_bytes: bytes, filename: str = "recording.webm") -> s
                 language="es",
                 response_format="text",
             )
+        print(resultado)
         return resultado if isinstance(resultado, str) else resultado.text
     finally:
         os.unlink(tmp_path)

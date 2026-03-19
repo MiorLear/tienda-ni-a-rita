@@ -23,7 +23,7 @@ operado por voz e iconos grandes.
 ### 1. Backend Python
 
 ```bash
-pip install fastapi uvicorn python-multipart openai sqlalchemy python-dotenv
+pip install fastapi uvicorn python-multipart groq sqlalchemy python-dotenv
 
 # Crear .env
 echo "OPENAI_API_KEY=sk-..." > .env

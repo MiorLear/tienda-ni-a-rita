@@ -379,14 +379,14 @@ body{font-family:'Nunito',sans-serif;background:var(--bg);color:var(--text);min-
 <div class="toast" id="toast"></div>
 
 <script>
-var API_BASE = '';
+var API_BASE = 'http://localhost:8000';
 var PRODUCTS = [
-  {id:1,icon:'🧴',name:'Shampoo', stock:12,color:'#EFF6FF'},
-  {id:2,icon:'🧼',name:'Jabon',   stock:3, color:'#F0FDF4'},
-  {id:3,icon:'🥤',name:'Refresco',stock:24,color:'#FFF0E8'},
-  {id:4,icon:'🍚',name:'Arroz',   stock:0, color:'#FFFBEB'},
-  {id:5,icon:'🛢',name:'Aceite',  stock:7, color:'#FDF4FF'},
-  {id:6,icon:'🍬',name:'Dulces',  stock:50,color:'#FFF0E8'}
+  {id:1,icon:'🧴',name:'Shampoo', stock:12,color:'#EFF6FF', precio:28},
+  {id:2,icon:'🧼',name:'Jabon',   stock:3, color:'#F0FDF4', precio:6},
+  {id:3,icon:'🥤',name:'Refresco',stock:24,color:'#FFF0E8', precio:8},
+  {id:4,icon:'🍚',name:'Arroz',   stock:0, color:'#FFFBEB', precio:22},
+  {id:5,icon:'🛢',name:'Aceite',  stock:7, color:'#FDF4FF', precio:38},
+  {id:6,icon:'🍬',name:'Dulces',  stock:50,color:'#FFF0E8', precio:2}
 ];
 var selectedProduct = {venta:null,entrada:null};
 var quantities = {venta:1,entrada:1};
@@ -418,6 +418,7 @@ renderChips('chips-entrada','entrada');
 
 function selectProduct(p,ctx,el) {
   selectedProduct[ctx] = p;
+  //console.log('Producto seleccionado para',ctx+':',p);
   document.querySelectorAll('#chips-'+ctx+' .product-chip').forEach(function(c){c.classList.remove('selected');});
   el.classList.add('selected');
   speakText(p.name+' seleccionado');
@@ -838,6 +839,9 @@ function irACobro() {
     speakText('Selecciona un producto');
     return;
   }
+
+  //console.log(selectedProduct)
+
   // Obtener precio del producto
   var precio = selectedProduct.venta.price || selectedProduct.venta.precio || 0;
   cobroTotal    = Math.round(precio * quantities.venta * 100) / 100;
